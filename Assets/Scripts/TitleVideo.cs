@@ -53,7 +53,7 @@ public class TitleVideo : MonoBehaviour {
             {
                 switch (index)
                 {
-                    case 0: SceneManager.LoadScene("FightingScene"); 
+                    case 0: SceneManager.LoadScene("CharacterSelect"); 
                         break;
                     case 1: SceneManager.LoadScene("ControlsScene");
                         break;

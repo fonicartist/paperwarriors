@@ -13,6 +13,7 @@ public class P1Move : MonoBehaviour {
     public float health;
     public bool faceRight;
     public new string name;
+    public int classType;
 
     public KeyCode Up, Down, Left, Right, Punch, UpperCut, Aerial;
     
@@ -30,7 +31,9 @@ public class P1Move : MonoBehaviour {
                  isGrounded,
                  holdingBack = false;
     private enum AnimNumber : int { Idle, Jumping, ForwardDash, BackDash, Hurt };
+    private enum ClassNumber : int { MartialArtist, Swordsman, Marksman, Brute, Sorcerer };
     private int _animNumber,
+                _classNumber,
                 invincibleFrames,
                 attackType;
     private Vector3 pos,
@@ -48,6 +51,7 @@ public class P1Move : MonoBehaviour {
         body = gameObject.GetComponent<Rigidbody2D>();
         anim = transform.GetChild(0).GetComponent<Animator>();
         _animNumber = (int)AnimNumber.Idle;
+        _classNumber = classType;
         health = MAX_HEALTH;
         isAttacking = false;
         isGrounded = true;
@@ -338,14 +342,24 @@ public class P1Move : MonoBehaviour {
         else if (Input.GetKeyDown(UpperCut) && !Input.GetKey(Punch) && isGrounded && !attackFromGround) {
             anim.SetTrigger("Uppercut");
             isAttacking = true;
-            setInAir();
             attackType = 2;
             speed.x = 0;
-            speed.y = .5f;
-            if (faceRight)
-                body.velocity = new Vector2(moveSpeed * 2.5f, body.velocity.y + moveSpeed * 6.5f);
-            else
-                body.velocity = new Vector2(-moveSpeed * 2.5f, body.velocity.y + moveSpeed * 6.5f);
+            switch (_classNumber) {
+                case 0:
+                    setInAir();
+                    speed.y = .5f;
+                    if (faceRight)
+                        body.velocity = new Vector2(moveSpeed * 2.5f, body.velocity.y + moveSpeed * 6.5f);
+                    else
+                        body.velocity = new Vector2(-moveSpeed * 2.5f, body.velocity.y + moveSpeed * 6.5f);
+                    break;
+                case 1:
+                    if (faceRight)
+                        body.velocity = new Vector2(moveSpeed * 4f, 0);
+                    else
+                        body.velocity = new Vector2(-moveSpeed * 4f, 0);
+                    break;
+            }
         }
     }
 

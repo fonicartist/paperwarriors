@@ -21,6 +21,8 @@ public class FightSceneController : MonoBehaviour {
         p2WinCount = 0;
         StartCoroutine(matchStart());
         Time.timeScale = 0f;
+        if (!roundText.activeSelf)
+            roundText.SetActive(true);
 	}
 	
 	// Update is called once per frame

@@ -4,14 +4,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
 
-public class ControlsScreen : MonoBehaviour
+public class CharacterSelect : MonoBehaviour
 {
     // Update is called once per frame
     void Update()
     {
 
         if (Input.anyKeyDown)
-            SceneManager.LoadScene("CharacterSelect");
+            SceneManager.LoadScene("StageSelect");
 
     }
 }
