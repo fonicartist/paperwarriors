@@ -370,16 +370,27 @@ public class P1Move : MonoBehaviour {
             isAttacking = true;
             attackFromGround = false;
             attackType = 1;
-            speed.x = 0;
-            speed.y = -1f;
-            if (faceRight) { 
-                body.velocity = new Vector2(moveSpeed * 6.5f, 0); 
-                speed.x = 1f; 
+            if (_classNumber == (int) ClassNumber.MartialArtist)
+                speed.y = -1f;
+
+            switch (_classNumber) { 
+                // Martial Artist will Dive Kick
+                case 0:
+                    speed.x = 0;
+                    if (faceRight) { 
+                        body.velocity = new Vector2(moveSpeed * 6.5f, 0); 
+                        speed.x = 1f; 
+                    }
+                    else {
+                        body.velocity = new Vector2(-moveSpeed * 6.5f, 0);
+                        speed.x = -1f;
+                    }
+                    break;
+                // Swordsman will Aerial Slash
+                case 1:
+                    break;
             }
-            else {
-                body.velocity = new Vector2(-moveSpeed * 6.5f, 0);
-                speed.x = -1f;
-            }
+
         }
         else if (Input.GetKeyDown(Aerial) && isGrounded && !isAttacking) {
             speed = new Vector2(0, 5);
