@@ -39,7 +39,8 @@ public class CameraMovement : MonoBehaviour {
         float x = Mathf.Clamp(center.x, xMin, xMax);
         float y = Mathf.Clamp(center.y, yMin, yMax);
 
-        // Set the new camera position
+        // Set the new camera position if it passes a certain threshold
+
         transform.position = new Vector3(x, y, transform.position.z);
     }
 }

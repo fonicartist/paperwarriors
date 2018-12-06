@@ -6,12 +6,12 @@ using UnityEngine.Video;
 
 public class ControlsScreen : MonoBehaviour
 {
+
     // Update is called once per frame
     void Update()
     {
 
-        if (Input.anyKeyDown)
-            SceneManager.LoadScene("CharacterSelect");
+        
 
     }
 }
