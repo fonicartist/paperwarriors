@@ -368,17 +368,15 @@ public class P1Move : MonoBehaviour {
         if (Input.GetKeyDown(Aerial) && isJumping && pos.y > 2.1f || 
             (attackFromGround && pos.y > 2.7f) ||
             (Input.GetKeyDown(Aerial) && isJumping && pos.y > .8f && _classNumber == 1)) {
-            speed.y = 0;
             anim.SetTrigger("Dive");
             isAttacking = true;
             attackFromGround = false;
             attackType = 1;
-            if (_classNumber == (int) ClassNumber.MartialArtist)
-                speed.y = -1f;
 
             switch (_classNumber) { 
                 // Martial Artist will Dive Kick
-                case 0:
+                case (int)ClassNumber.MartialArtist:
+                    speed.y = -1;
                     if (faceRight) { 
                         body.velocity = new Vector2(moveSpeed * 6.5f, 0); 
                         speed.x = 1f; 
@@ -389,16 +387,15 @@ public class P1Move : MonoBehaviour {
                     }
                     break;
                 // Swordsman will Aerial Slash
-                case 1:
-                    if (faceRight)
-                    {
+                case (int)ClassNumber.Swordsman:
+                    speed.y = 1;
+                    if (faceRight) {
                         body.velocity = new Vector2(moveSpeed * .5f, 0);
-                        speed.x = 1f;
+                        speed.x = .5f;
                     }
-                    else
-                    {
+                    else {
                         body.velocity = new Vector2(-moveSpeed * .5f, 0);
-                        speed.x = -1f;
+                        speed.x = -.5f;
                     }
                     break;
             }

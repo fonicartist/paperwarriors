@@ -19,7 +19,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: -0.06, y: -0.24, z: 0}
+        value: {x: -0.12, y: -0.24, z: 0}
         inSlope: {x: Infinity, y: Infinity, z: Infinity}
         outSlope: {x: Infinity, y: Infinity, z: Infinity}
         tangentMode: 0
@@ -28,7 +28,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 0.06666667
-        value: {x: 0, y: 0, z: 0}
+        value: {x: -0.07, y: 0, z: 0}
         inSlope: {x: Infinity, y: Infinity, z: Infinity}
         outSlope: {x: Infinity, y: Infinity, z: Infinity}
         tangentMode: 0
@@ -168,7 +168,7 @@ AnimationClip:
     - time: 0
       value: {fileID: 21300000, guid: 0dcf2159e98b4ab46b3e4899e85b88bc, type: 3}
     - time: 0.06666667
-      value: {fileID: 21300000, guid: 0fb7550068739fe47906fe00f8e7df84, type: 3}
+      value: {fileID: 21300000, guid: bedd1223305696e4fb84eb1119450285, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -231,7 +231,7 @@ AnimationClip:
       isPPtrCurve: 1
     pptrCurveMapping:
     - {fileID: 21300000, guid: 0dcf2159e98b4ab46b3e4899e85b88bc, type: 3}
-    - {fileID: 21300000, guid: 0fb7550068739fe47906fe00f8e7df84, type: 3}
+    - {fileID: 21300000, guid: bedd1223305696e4fb84eb1119450285, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -380,7 +380,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: -0.06
+        value: -0.12
         inSlope: Infinity
         outSlope: Infinity
         tangentMode: 103
@@ -389,7 +389,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.06666667
-        value: 0
+        value: -0.07
         inSlope: Infinity
         outSlope: Infinity
         tangentMode: 103
