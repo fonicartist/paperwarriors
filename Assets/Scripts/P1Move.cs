@@ -110,7 +110,7 @@ public class P1Move : MonoBehaviour {
             if (invincibleFrames > 0)
             {
                 invincibleFrames--;
-                if (invincibleFrames < 15)
+                if (invincibleFrames < 5)
                     anim.SetBool("IsHurt", false);
             }
 
@@ -388,7 +388,7 @@ public class P1Move : MonoBehaviour {
                     break;
                 // Swordsman will Aerial Slash
                 case (int)ClassNumber.Swordsman:
-                    speed.y = 1;
+                    speed.y = .4f;
                     if (faceRight) {
                         body.velocity = new Vector2(moveSpeed * .5f, 0);
                         speed.x = .5f;
@@ -402,7 +402,10 @@ public class P1Move : MonoBehaviour {
 
         }
         else if (Input.GetKeyDown(Aerial) && isGrounded && !isAttacking) {
-            speed = new Vector2(0, 5);
+            if (_classNumber == (int)ClassNumber.MartialArtist)
+                speed = new Vector2(0, 5);
+            else
+                speed = new Vector2(0, 4);
             setInAir();
             anim.SetTrigger("Jump");
             _animNumber = (int)(AnimNumber.Jumping);
@@ -433,7 +436,7 @@ public class P1Move : MonoBehaviour {
         speed = new Vector2(0, 0);
         body.velocity = new Vector2(0, 0);
 
-        invincibleFrames = 27;
+        invincibleFrames = 17;
         anim.SetBool("IsHurt", true);
         if (pos.y > -.5f)
             hitInAir();
