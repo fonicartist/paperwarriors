@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour {
     public float MAX_HEALTH;
     public float health;
     public bool faceRight;
-    public new string name;
+    public new string playername;
     public int classType;
 
     public KeyCode Up, Down, Left, Right, Punch, UpperCut, Aerial;
@@ -45,6 +45,10 @@ public class PlayerController : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject p in players)
+            if (!p.GetComponent<PlayerController>().playername.Equals(playername))
+                otherPlayer = p;
         speed = new Vector2(0, 0);
         scale = gameObject.transform.localScale;
         doubleTapTime = new float[2];
@@ -140,11 +144,28 @@ public class PlayerController : MonoBehaviour {
 
             // Determine Left Right Movement
             if (Input.GetKey(Right))
+            { 
                 speed.x = 1;
+                if (faceRight)
+                    anim.SetBool("Walking", true);
+                else
+                    anim.SetBool("Reversing", true);
+            }
             else if (Input.GetKey(Left))
+            {
                 speed.x = -1;
+                if (!faceRight)
+                    anim.SetBool("Walking", true);
+                else
+                    anim.SetBool("Reversing", true);
+            }
             else
+            {
                 speed.x = 0;
+                anim.SetBool("Walking", false);
+                anim.SetBool("Reversing", false);
+            }
+
 
             // Call function for handling player jumps
             jump();

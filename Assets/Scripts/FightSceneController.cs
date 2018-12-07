@@ -14,6 +14,7 @@ public class FightSceneController : MonoBehaviour {
                       player2WinsText,
                       timesUpText;
     public GameObject stage1, stage2, stage3;
+    public GameObject p1Fighter, p1Swordsman, p2Fighter, p2Swordsman;
     public GameObject clip1, clip2, clip3, clip4;
 
     // Game Objects
@@ -38,6 +39,29 @@ public class FightSceneController : MonoBehaviour {
         // Get info on the characters chosen during the select screen
         p1Char = PlayerPrefs.GetInt("P1Choice", 1);
         p2Char = PlayerPrefs.GetInt("P2Choice", 0);
+
+        switch (p1Char)
+        {
+            case 1:
+                p1Fighter.SetActive(true);
+                p1Swordsman.SetActive(false);
+                break;
+            case 0:
+                p1Fighter.SetActive(false);
+                p1Swordsman.SetActive(true);
+                break;
+        }
+        switch (p2Char)
+        {
+            case 1:
+                p2Fighter.SetActive(true);
+                p2Swordsman.SetActive(false);
+                break;
+            case 0:
+                p2Fighter.SetActive(false);
+                p2Swordsman.SetActive(true);
+                break;
+        }
 
         // Assign player objects the correct instantiation
         print("Player 1 chose the character: " + p1Char);
@@ -69,10 +93,10 @@ public class FightSceneController : MonoBehaviour {
         stages[PlayerPrefs.GetInt("StageChoice", 1)].SetActive(true);
 
         // Determine if player 2 is in the first slot
-        if (players[0].name.Equals("Player 2")) {
+        if (players[0].GetComponent<PlayerController>().playername.Equals("Player 2")) {
             GameObject temp = players[0];
             players[0] = players[1];
-            players[2] = temp;
+            players[1] = temp;
         }
         timer = GameObject.FindGameObjectWithTag("Timer").GetComponent<Timer>();
 

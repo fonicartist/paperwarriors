@@ -41,7 +41,7 @@ public class CharacterSelect : MonoBehaviour
                 p1Choice--;
                 moveCursor(p1Cursor, -5 + 4 * p1Choice, p1Pos);
             }
-            else if (Input.GetKeyDown(Right1) && !selected1 && p1Choice != (int)Character.Mage)
+            else if (Input.GetKeyDown(Right1) && !selected1 && p1Choice != (int)Character.Fighter)
             {
                 p1Choice++;
                 moveCursor(p1Cursor, -5 + 4 * p1Choice, p1Pos);
@@ -61,7 +61,7 @@ public class CharacterSelect : MonoBehaviour
                 p2Choice--;
                 moveCursor(p2Cursor, -3 + 4 * p2Choice, p2Pos);
             }
-            else if (Input.GetKeyDown(Right2) && !selected2 && p2Choice != (int) Character.Mage)
+            else if (Input.GetKeyDown(Right2) && !selected2 && p2Choice != (int) Character.Fighter)
             {
                 p2Choice++;
                 moveCursor(p2Cursor, -3 + 4 * p2Choice, p2Pos);

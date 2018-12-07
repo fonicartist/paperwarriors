@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class Lifebar : MonoBehaviour {
 
-    public PlayerController player;
+    public new string target;
+
+    private PlayerController player;
     private float percentage;
     private Vector3 scale;
 
 	// Use this for initialization
 	void Start () {
+        GameObject [] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject p in players)
+            if (p.GetComponent<PlayerController>().playername.Equals(target))
+                player = p.GetComponent<PlayerController>();
         percentage = player.getHealthPercent();
         scale = transform.localScale;
 	}
