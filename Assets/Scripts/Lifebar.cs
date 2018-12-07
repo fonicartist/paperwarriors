@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Lifebar : MonoBehaviour {
 
-    public P1Move player;
+    public PlayerController player;
     private float percentage;
     private Vector3 scale;
 

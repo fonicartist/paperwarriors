@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class P1Move : MonoBehaviour {
+public class PlayerController : MonoBehaviour {
     // CONSTANTS
     private static float GRAVITY = 9.5f;
 
@@ -31,7 +31,7 @@ public class P1Move : MonoBehaviour {
                  isGrounded,
                  holdingBack = false;
     private enum AnimNumber : int { Idle, Jumping, ForwardDash, BackDash, Hurt };
-    private enum ClassNumber : int { MartialArtist, Swordsman, Marksman, Brute, Sorcerer };
+    private enum ClassNumber : int { Fighter, Swordsman, Mage };
     private int _animNumber,
                 _classNumber,
                 invincibleFrames,
@@ -69,73 +69,65 @@ public class P1Move : MonoBehaviour {
         deltaTime = Time.realtimeSinceStartup - previousDelta;
         previousDelta = Time.realtimeSinceStartup;
 
-        if (!Global.isPaused)
-        {
-            // If time is not paused the rest of update will be executed
-            if (Time.timeScale == 1f)
+        // If time is not paused the rest of update will be executed
+        if (Time.timeScale == 1f) {
+
+            // See if player is holding back to block
+            isBlocking();
+
+            // Prevent player from clipping through the stage boundaries
+            if (isGrounded && speed.y != 0 && pos.y < -1.56f)
+                speed.y = 0;
+            else if (pos.y > -1.5f && !isGrounded)
+                setInAir();
+            else if (pos.y < -1.7)
+            {
+                pos.y = -1.6f;
+                
+                speed = new Vector2(0, 0);
+                setGrounded();
+                body.velocity = new Vector2(0, 0);
+                transform.SetPositionAndRotation(pos, new Quaternion());
+            }
+
+            // Actions to do if the player if idling or crouching
+            if (idling() || crouching()) {
+
+                // Reset attack capability 
+                setAttack(false);
+
+                // Flip player around if needed
+                if (faceRight && pos.x > otherPos.x + 0.5f)
+                    flipPlayer();
+                else if (!faceRight && pos.x < otherPos.x - 0.5f)
+                    flipPlayer();
+            }
+
+            // Play hurt animation if being attacked
+            if (invincibleFrames > 0)
+            {
+                invincibleFrames--;
+                if (invincibleFrames < 5)
+                    anim.SetBool("IsHurt", false);
+            }
+
+            // Actions to do if player is not in hitstun
+            if (!anim.GetBool("IsHurt"))
             {
 
-                // See if player is holding back to block
-                isBlocking();
+                // Call the function that controls player movement
+                movePlayer();
 
-                // Prevent player from clipping through the stage boundaries
-                if (isGrounded && speed.y != 0 && pos.y < -1.56f)
-                    speed.y = 0;
-                else if (pos.y > -1.5f && !isGrounded)
-                    setInAir();
-                else if (pos.y < -1.7)
+                // Set the animation to be played
+                anim.SetInteger("AnimNumber", _animNumber);
+
+                if (!isAttacking && !landing())
                 {
-                    pos.y = -1.6f;
-                    if (pos.x < -11.4)
-                        pos.x = -11.4f;
-                    else if (pos.x > 11.3f)
-                        pos.x = 11.3f;
-                    speed = new Vector2(0, 0);
-                    setGrounded();
-                    body.velocity = new Vector2(0, 0);
-                    transform.SetPositionAndRotation(pos, new Quaternion());
+                    // Check for attack input
+                    attack();
+                    airAttack();
                 }
 
-                // Actions to do if the player if idling or crouching
-                if (idling() || crouching())
-                {
-
-                    // Reset attack capability 
-                    setAttack(false);
-
-                    // Flip player around if needed
-                    if (faceRight && pos.x > otherPos.x + 0.5f)
-                        flipPlayer();
-                    else if (!faceRight && pos.x < otherPos.x - 0.5f)
-                        flipPlayer();
-                }
-
-                // Play hurt animation if being attacked
-                if (invincibleFrames > 0)
-                {
-                    invincibleFrames--;
-                    if (invincibleFrames < 5)
-                        anim.SetBool("IsHurt", false);
-                }
-
-                // Actions to do if player is not in hitstun
-                if (!anim.GetBool("IsHurt"))
-                {
-
-                    // Call the function that controls player movement
-                    movePlayer();
-
-                    // Set the animation to be played
-                    anim.SetInteger("AnimNumber", _animNumber);
-
-                    if (!isAttacking && !landing())
-                    {
-                        // Check for attack input
-                        attack();
-                        airAttack();
-                    }
-
-                }
             }
         }
     }
@@ -380,7 +372,7 @@ public class P1Move : MonoBehaviour {
 
             switch (_classNumber) { 
                 // Martial Artist will Dive Kick
-                case (int)ClassNumber.MartialArtist:
+                case (int)ClassNumber.Fighter:
                     speed.y = -1;
                     if (faceRight) { 
                         body.velocity = new Vector2(moveSpeed * 6.5f, 0); 
@@ -407,7 +399,7 @@ public class P1Move : MonoBehaviour {
 
         }
         else if (Input.GetKeyDown(Aerial) && isGrounded && !isAttacking) {
-            if (_classNumber == (int)ClassNumber.MartialArtist)
+            if (_classNumber == (int)ClassNumber.Fighter)
                 speed = new Vector2(0, 5);
             else
                 speed = new Vector2(0, 4);

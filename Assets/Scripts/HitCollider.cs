@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class HitCollider : MonoBehaviour {
 
-    public P1Move owner;
+    public PlayerController owner;
 
     void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "PlayerBody") {
-            P1Move opponent = other.gameObject.GetComponentInParent<P1Move>();
+            PlayerController opponent = other.gameObject.GetComponentInParent<PlayerController>();
             Rigidbody2D body = owner.GetComponentInParent<Rigidbody2D>();
             Rigidbody2D otherBody = other.GetComponentInParent<Rigidbody2D>();
             AnimatorStateInfo anim = other.GetComponentInParent<Animator>().GetCurrentAnimatorStateInfo(0);

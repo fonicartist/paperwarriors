@@ -4,27 +4,48 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour {
 
-    public GameObject player1,
-                      player2;
-    public float xMin, 
-                 xMax, 
-                 yMin, 
-                 yMax;
+    // Public
+    public float yMin;
+
+    // Private
+    private float xVal,
+                  yMax,
+                  xMin,
+                  xMax;
+                 
     private Vector2 center,
                     p1Pos,
                     p2Pos;
+    private GameObject[] players;
 
 	// Use this for initialization
 	void Start () {
-        
+        players = GameObject.FindGameObjectsWithTag("Player");
+        switch (PlayerPrefs.GetInt("StageChoice", 1))
+        {
+            case 0: 
+                xVal = 2.9f;
+                yMax = 2.5f;
+                break;
+            case 1: 
+                xVal = 4.9f;
+                yMax = 3.0f;
+                break;
+            case 2:
+                xVal = 3.4f;
+                yMax = 4.5f;
+                break;
+        }
+        xMax = xVal;
+        xMin = -xVal;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
         // Get player positions for reference
-        p1Pos = player1.transform.localPosition;
-        p2Pos = player2.transform.localPosition;
+        p1Pos = players[0].transform.localPosition;
+        p2Pos = players[1].transform.localPosition;
 
         // Find the center between the players
         center.x = (p1Pos.x + p2Pos.x) / 2;

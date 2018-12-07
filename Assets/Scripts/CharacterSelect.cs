@@ -17,6 +17,11 @@ public class CharacterSelect : MonoBehaviour
 
     void Start()
     {
+        // Reset fight stats
+        PlayerPrefs.DeleteKey("Player1Wins");
+        PlayerPrefs.DeleteKey("Player2Wins");
+        PlayerPrefs.DeleteKey("RoundNumber");
+
         p1Choice = (int) Character.Fighter;
         p2Choice = (int) Character.Fighter;
         selected1 = false;
@@ -77,7 +82,11 @@ public class CharacterSelect : MonoBehaviour
 
         // Move onto Stage Select Screen when both players have chosen a character
         if (selected1 && selected2)
+        {
+            PlayerPrefs.SetInt("P1Choice", p1Choice);
+            PlayerPrefs.SetInt("P2Choice", p2Choice);
             SceneManager.LoadScene("StageSelect");
+        }
 
     }
 
