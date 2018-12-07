@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 public class FightSceneController : MonoBehaviour {
 
     public GameObject round1Text,
+                      menuVideo,
+                      pauseMenu,
+                      cursor,
                       round2Text,
                       round3Text,
                       fightText,
@@ -35,20 +38,41 @@ public class FightSceneController : MonoBehaviour {
         Time.timeScale = 0f;
         if (!round1Text.activeSelf)
             round1Text.SetActive(true);
-	}
+        pauseMenu.SetActive(false);
+        cursor.SetActive(false);
+    }
 	
 	// Update is called once per frame
 	void Update () {
 
-        for (int i = 0; i < players.Length; i++)
-            if (players[i].GetComponentInChildren<P1Move>().getHealthPercent() == 0)
-                StartCoroutine(playerWins(i));
+        if (!Global.isPaused)
+        {
+            for (int i = 0; i < players.Length; i++)
+                if (players[i].GetComponentInChildren<P1Move>().getHealthPercent() == 0)
+                    StartCoroutine(playerWins(i));
+        }
 
         if (timer.getTime() == 0)
         {
             StartCoroutine(playerWinsByTimeout());
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            pauseMenu.GetComponent<SpriteRenderer>().enabled = true;
+            Global.isPaused = true;
+            menuVideo.SetActive(true);
+            pauseMenu.SetActive(true);
+            cursor.SetActive(true);
+        }
+
+        if (!pauseMenu.GetComponent<SpriteRenderer>().enabled)
+        {
+            menuVideo.SetActive(false);
+            pauseMenu.SetActive(false);
+            cursor.SetActive(false);
+            Global.isPaused = false;
+        }
 	}
 
     IEnumerator matchStart()

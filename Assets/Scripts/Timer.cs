@@ -27,7 +27,7 @@ public class Timer : MonoBehaviour {
 	void Update () {
         currentTime = Time.time;
 
-        if (currentTime - deltaTime > 1) {
+        if (currentTime - deltaTime > 1 && !Global.isPaused) {
             deltaTime = currentTime;
             roundTime--;
         }
