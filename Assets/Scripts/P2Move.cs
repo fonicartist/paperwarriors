@@ -50,23 +50,25 @@ public class P2Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!Global.isPaused)
+        {
+            // Grab references for position and Time for this frame
+            pos = transform.position;
+            otherPos = otherPlayer.transform.localPosition;
+            deltaTime = Time.deltaTime;
 
-        // Grab references for position and Time for this frame
-        pos = transform.position;
-        otherPos = otherPlayer.transform.localPosition;
-        deltaTime = Time.deltaTime;
+            // Call the function that controls player movement
+            movePlayer();
 
-        // Call the function that controls player movement
-        movePlayer();
+            // Set the animation to be played
+            anim.SetInteger("AnimNumber", _animNumber);
 
-        // Set the animation to be played
-        anim.SetInteger("AnimNumber", _animNumber);
+            // Ground Attacks
+            attack();
 
-        // Ground Attacks
-        attack();
-
-        // Aerial Attacks
-        airAttack();
+            // Aerial Attacks
+            airAttack();
+        }
     }
 
     // Moves the player left and right

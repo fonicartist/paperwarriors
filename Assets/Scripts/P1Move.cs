@@ -69,68 +69,73 @@ public class P1Move : MonoBehaviour {
         deltaTime = Time.realtimeSinceStartup - previousDelta;
         previousDelta = Time.realtimeSinceStartup;
 
-        // If time is not paused the rest of update will be executed
-        if (Time.timeScale == 1f) {
-
-            // See if player is holding back to block
-            isBlocking();
-
-            // Prevent player from clipping through the stage boundaries
-            if (isGrounded && speed.y != 0 && pos.y < -1.56f)
-                speed.y = 0;
-            else if (pos.y > -1.5f && !isGrounded)
-                setInAir();
-            else if (pos.y < -1.7)
-            {
-                pos.y = -1.6f;
-                if (pos.x < -11.4)
-                    pos.x = -11.4f;
-                else if (pos.x > 11.3f)
-                    pos.x = 11.3f;
-                speed = new Vector2(0, 0);
-                setGrounded();
-                body.velocity = new Vector2(0, 0);
-                transform.SetPositionAndRotation(pos, new Quaternion());
-            }
-
-            // Actions to do if the player if idling or crouching
-            if (idling() || crouching()) {
-
-                // Reset attack capability 
-                setAttack(false);
-
-                // Flip player around if needed
-                if (faceRight && pos.x > otherPos.x + 0.5f)
-                    flipPlayer();
-                else if (!faceRight && pos.x < otherPos.x - 0.5f)
-                    flipPlayer();
-            }
-
-            // Play hurt animation if being attacked
-            if (invincibleFrames > 0)
-            {
-                invincibleFrames--;
-                if (invincibleFrames < 5)
-                    anim.SetBool("IsHurt", false);
-            }
-
-            // Actions to do if player is not in hitstun
-            if (!anim.GetBool("IsHurt"))
+        if (!Global.isPaused)
+        {
+            // If time is not paused the rest of update will be executed
+            if (Time.timeScale == 1f)
             {
 
-                // Call the function that controls player movement
-                movePlayer();
+                // See if player is holding back to block
+                isBlocking();
 
-                // Set the animation to be played
-                anim.SetInteger("AnimNumber", _animNumber);
-
-                if (!isAttacking && !landing())
+                // Prevent player from clipping through the stage boundaries
+                if (isGrounded && speed.y != 0 && pos.y < -1.56f)
+                    speed.y = 0;
+                else if (pos.y > -1.5f && !isGrounded)
+                    setInAir();
+                else if (pos.y < -1.7)
                 {
-                    // Check for attack input
-                    attack();
-                    airAttack();
+                    pos.y = -1.6f;
+                    if (pos.x < -11.4)
+                        pos.x = -11.4f;
+                    else if (pos.x > 11.3f)
+                        pos.x = 11.3f;
+                    speed = new Vector2(0, 0);
+                    setGrounded();
+                    body.velocity = new Vector2(0, 0);
+                    transform.SetPositionAndRotation(pos, new Quaternion());
                 }
 
+                // Actions to do if the player if idling or crouching
+                if (idling() || crouching())
+                {
+
+                    // Reset attack capability 
+                    setAttack(false);
+
+                    // Flip player around if needed
+                    if (faceRight && pos.x > otherPos.x + 0.5f)
+                        flipPlayer();
+                    else if (!faceRight && pos.x < otherPos.x - 0.5f)
+                        flipPlayer();
+                }
+
+                // Play hurt animation if being attacked
+                if (invincibleFrames > 0)
+                {
+                    invincibleFrames--;
+                    if (invincibleFrames < 5)
+                        anim.SetBool("IsHurt", false);
+                }
+
+                // Actions to do if player is not in hitstun
+                if (!anim.GetBool("IsHurt"))
+                {
+
+                    // Call the function that controls player movement
+                    movePlayer();
+
+                    // Set the animation to be played
+                    anim.SetInteger("AnimNumber", _animNumber);
+
+                    if (!isAttacking && !landing())
+                    {
+                        // Check for attack input
+                        attack();
+                        airAttack();
+                    }
+
+                }
             }
         }
     }
