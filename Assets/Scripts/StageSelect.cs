@@ -15,6 +15,7 @@ public class StageSelect : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
+        Time.timeScale = 1f;
         _stage = Stage.stage2;
     }
 
@@ -50,7 +51,8 @@ public class StageSelect : MonoBehaviour
                         break;
                 }
             }
-            else if (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.Keypad1) ||
+            else if (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.G) || Input.GetKeyDown(KeyCode.H) ||
+                     Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Keypad3) || 
                      Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
             {
                 PlayerPrefs.SetInt("StageChoice", (int)_stage);

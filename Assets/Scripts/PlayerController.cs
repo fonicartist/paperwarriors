@@ -352,9 +352,9 @@ public class PlayerController : MonoBehaviour {
                     break;
                 case 1:
                     if (faceRight)
-                        body.velocity = new Vector2(moveSpeed * 4f, 0);
+                        body.velocity = new Vector2(moveSpeed * 2.5f, 0);
                     else
-                        body.velocity = new Vector2(-moveSpeed * 4f, 0);
+                        body.velocity = new Vector2(-moveSpeed * 2.5f, 0);
                     break;
             }
         }

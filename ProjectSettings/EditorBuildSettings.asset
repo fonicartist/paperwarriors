@@ -6,11 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/TitleVideo.unity
-    guid: 62c591b13fb497f459403eefd4b999b4
-  - enabled: 1
     path: Assets/Scenes/ControlsScene.unity
     guid: d2e9eef009bc5c343b097340225b586e
+  - enabled: 1
+    path: Assets/Scenes/TitleVideo.unity
+    guid: 62c591b13fb497f459403eefd4b999b4
   - enabled: 1
     path: Assets/Scenes/FightingScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729

@@ -27,35 +27,29 @@ public class HitCollider : MonoBehaviour {
                     int ownerType = owner.getAttackType();
                     int otherType = opponent.getAttackType();
                     canHurtOpponent = false;
+
+                    // Same attack sends players backwards
+                    if (ownerType == otherType)
+                    {
+                        owner.flyback();
+                        opponent.flyback();
+                        return;
+                    }
+
                     switch (otherType)
                     {
                         // Opponent is using lunge attack
                         case 0:
-                            if (ownerType == otherType) {
-                                owner.flyback();
-                                opponent.flyback();
-                                return;
-                            }
                             if (ownerType == 1)
                                 canHurtOpponent = true;
                             break;
                         // Opponent is using aerial attack
                         case 1:
-                            if (ownerType == otherType) {
-                                owner.flyback();
-                                opponent.flyback();
-                                return;
-                            }
                             if (ownerType == 2)
                                 canHurtOpponent = true;
                             break;
                         // Opponent is using anti-air attack
                         case 2:
-                            if (ownerType == otherType) {
-                                owner.flyback();
-                                opponent.flyback();
-                                return;
-                            }
                             if (ownerType == 0)
                                 canHurtOpponent = true;
                             break;

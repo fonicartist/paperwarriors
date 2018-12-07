@@ -14,6 +14,7 @@ public class FightSceneController : MonoBehaviour {
                       player2WinsText,
                       timesUpText;
     public GameObject stage1, stage2, stage3;
+    public GameObject clip1, clip2, clip3, clip4;
 
     // Game Objects
     private Timer timer;
@@ -28,9 +29,11 @@ public class FightSceneController : MonoBehaviour {
                 p1Char,
                 p2Char,
                 stageChoice;
+    private bool calledCoroutineAlready;
 
 	// Use this for initialization
 	void Start () {
+        calledCoroutineAlready = false;
 
         // Get info on the characters chosen during the select screen
         p1Char = PlayerPrefs.GetInt("P1Choice", 1);
@@ -76,6 +79,8 @@ public class FightSceneController : MonoBehaviour {
         // Load in the current win counts
         p1WinCount = PlayerPrefs.GetInt("Player1Wins", 0);
         p2WinCount = PlayerPrefs.GetInt("Player2Wins", 0);
+        print(p1WinCount + " " + p2WinCount);
+        displayWins();
 
         StartCoroutine(matchStart());
         Time.timeScale = 0f;
@@ -87,11 +92,15 @@ public class FightSceneController : MonoBehaviour {
 	void Update () {
 
         for (int i = 0; i < players.Length; i++)
-            if (players[i].GetComponentInChildren<PlayerController>().getHealthPercent() == 0)
-                StartCoroutine(playerWins(i));
+            if (players[i].GetComponentInChildren<PlayerController>().getHealthPercent() == 0 && !calledCoroutineAlready)
+            {
+                calledCoroutineAlready = true;
+                StartCoroutine(playerWins(i)); 
+            }
 
-        if (timer.getTime() == 0)
+        if (timer.getTime() == 0 && !calledCoroutineAlready)
         {
+            calledCoroutineAlready = true;
             StartCoroutine(playerWinsByTimeout());
         }
 
@@ -127,7 +136,9 @@ public class FightSceneController : MonoBehaviour {
                 player1WinsText.SetActive(true);
                 break;
         }
+        displayWins();
         print("Player has died");
+        print(roundNumber);
         PlayerPrefs.SetInt("RoundNumber", roundNumber);
         Time.timeScale = 0f;
         yield return new WaitForSecondsRealtime(2);
@@ -148,15 +159,47 @@ public class FightSceneController : MonoBehaviour {
 
     }
 
+    void displayWins()
+    {
+        // Show Player 1 Wins
+        if (p1WinCount > 0)
+        {
+            clip1.SetActive(true);
+            if (p1WinCount > 1)
+                clip2.SetActive(true);
+        }
+        else
+        {
+            clip1.SetActive(false);
+            clip2.SetActive(false);
+        }
+
+        // Show Player 2 Wins
+        if (p2WinCount > 0)
+        {
+            clip3.SetActive(true);
+            if (p2WinCount > 1)
+                clip4.SetActive(true);
+        }
+        else
+        {
+            clip3.SetActive(false);
+            clip4.SetActive(false);
+        }
+
+    }
+
     void reload()
     {
         // Delete round statistics when a match is over (has reached 3 rounds or two wins from one person)
-        if (roundNumber == 3 || p1WinCount == 2 || p2WinCount == 2)
+        if (roundNumber >= 3 || p1WinCount >= 2 || p2WinCount >= 2)
         {
             PlayerPrefs.DeleteKey("Player1Wins");
             PlayerPrefs.DeleteKey("Player2Wins");
             PlayerPrefs.DeleteKey("RoundNumber");
+            print("Loading Title");
             SceneManager.LoadScene("TitleVideo");
+            return;
         }
         SceneManager.LoadScene("FightingScene");
     }
