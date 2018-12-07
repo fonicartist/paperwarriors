@@ -16,6 +16,7 @@ public class FightSceneController : MonoBehaviour {
     public GameObject stage1, stage2, stage3;
     public GameObject p1Fighter, p1Swordsman, p2Fighter, p2Swordsman;
     public GameObject clip1, clip2, clip3, clip4;
+    public GameObject p1Bar, p2Bar;
 
     // Game Objects
     private Timer timer;
@@ -42,24 +43,44 @@ public class FightSceneController : MonoBehaviour {
 
         switch (p1Char)
         {
-            case 1:
-                p1Fighter.SetActive(true);
-                p1Swordsman.SetActive(false);
-                break;
             case 0:
                 p1Fighter.SetActive(false);
+                //p1Mage.SetActive(false);
                 p1Swordsman.SetActive(true);
+                p1Bar.GetComponent<Lifebar>().setPlayer(p1Swordsman);
+                break;
+            case 1:
+                p1Swordsman.SetActive(false);
+                //p1Mage.SetActive(false);
+                p1Fighter.SetActive(true);
+                p1Bar.GetComponent<Lifebar>().setPlayer(p1Fighter);
+                break;
+            case 2:
+                p1Fighter.SetActive(false);
+                p1Swordsman.SetActive(false);
+                //p1Mage.SetActive(true);
+                //p1Bar.GetComponent<Lifebar>().setPlayer(p1Mage);
                 break;
         }
         switch (p2Char)
         {
-            case 1:
-                p2Fighter.SetActive(true);
-                p2Swordsman.SetActive(false);
-                break;
             case 0:
                 p2Fighter.SetActive(false);
+                //p2Mage.SetActive(false);
                 p2Swordsman.SetActive(true);
+                p2Bar.GetComponent<Lifebar>().setPlayer(p2Swordsman);
+                break;
+            case 1:
+                //p2Mage.SetActive(false);
+                p2Swordsman.SetActive(false);
+                p2Fighter.SetActive(true);
+                p2Bar.GetComponent<Lifebar>().setPlayer(p2Fighter);
+                break;
+            case 2:
+                p2Fighter.SetActive(false);
+                p2Swordsman.SetActive(false);
+                //p2Mage.SetActive(false);
+                //p2Bar.GetComponent<Lifebar>().setPlayer(p2Mage);
                 break;
         }
 

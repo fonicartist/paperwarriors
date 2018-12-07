@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour {
     public float MAX_HEALTH;
     public float health;
     public bool faceRight;
-    public new string playername;
+    public string playername;
     public int classType;
 
     public KeyCode Up, Down, Left, Right, Punch, UpperCut, Aerial;
@@ -42,10 +42,11 @@ public class PlayerController : MonoBehaviour {
                     scale;
     private Rigidbody2D body;
     private Animator anim;
+    private GameObject[] players;
 
     // Use this for initialization
     void Start() {
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject p in players)
             if (!p.GetComponent<PlayerController>().playername.Equals(playername))
                 otherPlayer = p;
@@ -62,10 +63,22 @@ public class PlayerController : MonoBehaviour {
         attackFromGround = false;
         attackType = -1;
         previousDelta = Time.realtimeSinceStartup;
+        setGrounded();
     }
 
     // Update is called once per frame
     void Update() {
+
+        if (players.Length < 2)
+        {
+            players = GameObject.FindGameObjectsWithTag("Player");
+            foreach (GameObject p in players)
+                if (!p.GetComponent<PlayerController>().playername.Equals(playername))
+                    otherPlayer = p;
+        }
+
+        if (body == null)
+            gameObject.GetComponent<Rigidbody2D>();
 
         // Grab references for position and Time for this frame
         pos = transform.position;

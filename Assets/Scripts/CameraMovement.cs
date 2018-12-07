@@ -21,6 +21,7 @@ public class CameraMovement : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         players = GameObject.FindGameObjectsWithTag("Player");
+
         switch (PlayerPrefs.GetInt("StageChoice", 1))
         {
             case 0: 
@@ -42,6 +43,9 @@ public class CameraMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (players.Length < 2)
+            players = GameObject.FindGameObjectsWithTag("Player");
 
         // Get player positions for reference
         p1Pos = players[0].transform.localPosition;
