@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class P1Move : MonoBehaviour {
+public class PlayerController : MonoBehaviour {
     // CONSTANTS
     private static float GRAVITY = 9.5f;
 
@@ -31,7 +31,7 @@ public class P1Move : MonoBehaviour {
                  isGrounded,
                  holdingBack = false;
     private enum AnimNumber : int { Idle, Jumping, ForwardDash, BackDash, Hurt };
-    private enum ClassNumber : int { MartialArtist, Swordsman, Marksman, Brute, Sorcerer };
+    private enum ClassNumber : int { Fighter, Swordsman, Mage };
     private int _animNumber,
                 _classNumber,
                 invincibleFrames,
@@ -83,10 +83,7 @@ public class P1Move : MonoBehaviour {
             else if (pos.y < -1.7)
             {
                 pos.y = -1.6f;
-                if (pos.x < -11.4)
-                    pos.x = -11.4f;
-                else if (pos.x > 11.3f)
-                    pos.x = 11.3f;
+                
                 speed = new Vector2(0, 0);
                 setGrounded();
                 body.velocity = new Vector2(0, 0);
@@ -375,7 +372,7 @@ public class P1Move : MonoBehaviour {
 
             switch (_classNumber) { 
                 // Martial Artist will Dive Kick
-                case (int)ClassNumber.MartialArtist:
+                case (int)ClassNumber.Fighter:
                     speed.y = -1;
                     if (faceRight) { 
                         body.velocity = new Vector2(moveSpeed * 6.5f, 0); 
@@ -402,7 +399,7 @@ public class P1Move : MonoBehaviour {
 
         }
         else if (Input.GetKeyDown(Aerial) && isGrounded && !isAttacking) {
-            if (_classNumber == (int)ClassNumber.MartialArtist)
+            if (_classNumber == (int)ClassNumber.Fighter)
                 speed = new Vector2(0, 5);
             else
                 speed = new Vector2(0, 4);
