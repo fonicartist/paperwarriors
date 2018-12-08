@@ -76,7 +76,7 @@ public class HitCollider : MonoBehaviour {
                     }
                     else
                     {
-                        opponent.getHurt();
+                        opponent.getHurt(owner.getPower());
                         if (owner.faceRight)
                         {
                             body.velocity = new Vector2(-55, 10);

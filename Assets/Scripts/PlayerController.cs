@@ -458,9 +458,9 @@ public class PlayerController : MonoBehaviour {
     }
 
     // Player is hurt by an attack
-    public void getHurt () {
-        if (health > 10)
-            health -= 10;
+    public void getHurt (int damage) {
+        if (health > damage)
+            health -= damage;
         else
             health = 0;
 
@@ -520,6 +520,11 @@ public class PlayerController : MonoBehaviour {
     // Coroutine to wait for ingame seconds
     public IEnumerator wait(int seconds) {
         yield return new WaitForSeconds(seconds);
+    }
+
+    public int getPower()
+    {
+        return 10 - 2 * _classNumber;
     }
 
     // Knocks the player away from opponent
