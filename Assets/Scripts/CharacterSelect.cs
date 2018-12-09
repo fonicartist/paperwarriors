@@ -40,44 +40,55 @@ public class CharacterSelect : MonoBehaviour
             {
                 p1Choice--;
                 moveCursor(p1Cursor, -5 + 4 * p1Choice, p1Pos);
+                FindObjectOfType<AudioManager>().play("CursorMove");
             }
             else if (Input.GetKeyDown(Right1) && !selected1 && p1Choice != (int)Character.Fighter)
             {
                 p1Choice++;
                 moveCursor(p1Cursor, -5 + 4 * p1Choice, p1Pos);
+                FindObjectOfType<AudioManager>().play("CursorMove");
             }
             else if (Input.GetKeyDown(Select1) && !selected1)
             {
                 selectCursor(p1Cursor);
                 selected1 = true;
+                FindObjectOfType<AudioManager>().play("CursorSelect");
             }
             else if (Input.GetKeyDown(Back1) && selected1)
             {
                 deselectCursor(p1Cursor);
                 selected1 = false;
+                FindObjectOfType<AudioManager>().play("CursorBack");
             }
             else if (Input.GetKeyDown(Left2) && !selected2 && p2Choice != (int) Character.Swordsman)
             {
                 p2Choice--;
                 moveCursor(p2Cursor, -3 + 4 * p2Choice, p2Pos);
+                FindObjectOfType<AudioManager>().play("CursorMove");
             }
             else if (Input.GetKeyDown(Right2) && !selected2 && p2Choice != (int) Character.Fighter)
             {
                 p2Choice++;
                 moveCursor(p2Cursor, -3 + 4 * p2Choice, p2Pos);
+                FindObjectOfType<AudioManager>().play("CursorMove");
             }
             else if (Input.GetKeyDown(Select2) && !selected2)
             {
                 selectCursor(p2Cursor);
                 selected2 = true;
+                FindObjectOfType<AudioManager>().play("CursorSelect");
             }
             else if (Input.GetKeyDown(Back2) && selected2)
             {
                 deselectCursor(p2Cursor);
                 selected2 = false;
+                FindObjectOfType<AudioManager>().play("CursorBack");
             }
             else if (Input.GetKeyDown(KeyCode.Escape))
+            { 
                 SceneManager.LoadScene("TitleVideo");
+                FindObjectOfType<AudioManager>().play("CursorBack");
+            }
         }
 
         // Move onto Stage Select Screen when both players have chosen a character

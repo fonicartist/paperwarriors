@@ -30,11 +30,12 @@ public class FightSceneController : MonoBehaviour {
                 roundNumber,
                 p1Char,
                 p2Char,
-                stageChoice;
+                stageChoice,
+                musicChoice;
     private bool calledCoroutineAlready;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         calledCoroutineAlready = false;
 
         // Get info on the characters chosen during the select screen
@@ -105,8 +106,7 @@ public class FightSceneController : MonoBehaviour {
 
         // Store objects an arrays for reference
         players = GameObject.FindGameObjectsWithTag("Player");
-        stages = new GameObject[]{stage1, stage2, stage3};
-        print(stages.Length);
+        stages = new GameObject[] { stage1, stage2, stage3 };
 
         // Disable all stages then enable the one chosen by players.
         foreach (GameObject stage in stages)
@@ -132,6 +132,46 @@ public class FightSceneController : MonoBehaviour {
         //if (!round1Text.activeSelf)
         //    round1Text.SetActive(true);
 	}
+
+    void Start()
+    {
+        // Determine which music to play based on the stage
+        musicChoice = PlayerPrefs.GetInt("MusicChoice", 0);
+        if (musicChoice != -1)
+        {
+            print("Music choice was: " + musicChoice);
+            if (musicChoice == 0)
+            {
+                // Music will play based on the stage selected
+                switch (PlayerPrefs.GetInt("StageChoice", 1))
+                {
+                    case 0: FindObjectOfType<AudioManager>().play("PaperCombat");
+                        print("Playing PaperCombat");
+                        break;
+                    case 1: FindObjectOfType<AudioManager>().play("NihonMori");
+                        print("Playing PaperCombat");
+                        break;
+                    case 2: FindObjectOfType<AudioManager>().play("RocktheDevil");
+                        print("Playing PaperCombat");
+                        break;
+                }
+            }
+            else
+                switch (musicChoice)
+                {
+                    case 1: FindObjectOfType<AudioManager>().play("PaperCombat");
+                        print("Playing PaperCombat");
+                        break;
+                    case 2: FindObjectOfType<AudioManager>().play("NihonMori");
+                        print("Playing PaperCombat");
+                        break;
+                    case 3: FindObjectOfType<AudioManager>().play("RocktheDevil");
+                        print("Playing PaperCombat");
+                        break;
+                }
+        }
+        PlayerPrefs.SetInt("MusicChoice", -1);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -243,6 +283,7 @@ public class FightSceneController : MonoBehaviour {
             PlayerPrefs.DeleteKey("Player2Wins");
             PlayerPrefs.DeleteKey("RoundNumber");
             print("Loading Title");
+            Destroy(FindObjectOfType<AudioManager>().gameObject);
             SceneManager.LoadScene("TitleVideo");
             return;
         }

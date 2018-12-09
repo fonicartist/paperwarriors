@@ -33,6 +33,7 @@ public class HitCollider : MonoBehaviour {
                     {
                         owner.flyback();
                         opponent.flyback();
+                        FindObjectOfType<AudioManager>().play("Block");
                         return;
                     }
 
@@ -63,6 +64,7 @@ public class HitCollider : MonoBehaviour {
                     if (opponent.isBlocking())
                     {
                         opponent.block();
+                        FindObjectOfType<AudioManager>().play("Block");
                         if (owner.faceRight)
                         {
                             body.velocity = new Vector2(-15, 5);
@@ -77,6 +79,16 @@ public class HitCollider : MonoBehaviour {
                     else
                     {
                         opponent.getHurt(owner.getPower());
+                        // Play the correct sound for getting hurt depending on the character
+                        switch (owner.classType)
+                        {
+                            case 0: FindObjectOfType<AudioManager>().play("Hit");
+                                break;
+                            case 1: FindObjectOfType<AudioManager>().play("SwordHit");
+                                break;
+                            case 2:
+                                break;
+                        }
                         if (owner.faceRight)
                         {
                             body.velocity = new Vector2(-55, 10);

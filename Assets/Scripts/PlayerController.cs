@@ -203,6 +203,7 @@ public class PlayerController : MonoBehaviour {
 
         // Check for jump command
         if (Input.GetKeyDown(Up) && !isAttacking) {
+            FindObjectOfType<AudioManager>().play("Jump");
             speed = new Vector2(0, 4);
             setInAir();
             canAirDash = true;
@@ -315,6 +316,7 @@ public class PlayerController : MonoBehaviour {
 
     // Adds velocity to player for dashing forwards
     void forwardDash () {
+        FindObjectOfType<AudioManager>().play("Dash");
         canAirDash = false;
         airDashing = true;
         _animNumber = (int)AnimNumber.ForwardDash;
@@ -327,6 +329,7 @@ public class PlayerController : MonoBehaviour {
 
     // Adds velocity to player for dashing backwards
     void backDash () {
+        FindObjectOfType<AudioManager>().play("Dash");
         canAirDash = false;
         airDashing = true;
         _animNumber = (int)AnimNumber.BackDash;
@@ -360,6 +363,14 @@ public class PlayerController : MonoBehaviour {
     {
         // Perform lunging attack
         if (Input.GetKeyDown(Punch) && !Input.GetKey(UpperCut) && isGrounded && !attackFromGround) {
+            switch (_classNumber)
+            {
+                case 0: FindObjectOfType<AudioManager>().play("Punch");
+                    break;
+                case 1: FindObjectOfType<AudioManager>().play("Swing");
+                    break;
+            }
+            
             anim.SetTrigger("Punch");
             isAttacking = true;
             attackType = 0;
@@ -371,6 +382,14 @@ public class PlayerController : MonoBehaviour {
         }
         // Perform anti-air attack
         else if (Input.GetKeyDown(UpperCut) && !Input.GetKey(Punch) && isGrounded && !attackFromGround) {
+            switch(_classNumber)
+            {
+                case 0: FindObjectOfType<AudioManager>().play("HeavyKick");
+                    FindObjectOfType<AudioManager>().play("Jump");
+                    break;
+                case 1: FindObjectOfType<AudioManager>().play("HeavySwing");
+                    break;
+            }
             anim.SetTrigger("Uppercut");
             isAttacking = true;
             attackType = 2;
@@ -408,6 +427,7 @@ public class PlayerController : MonoBehaviour {
                 // Martial Artist will Dive Kick
                 case (int)ClassNumber.Fighter:
                     speed.y = -1;
+                    FindObjectOfType<AudioManager>().play("HeavyKick");
                     if (faceRight) { 
                         body.velocity = new Vector2(moveSpeed * 6.5f, 0); 
                         speed.x = 1f; 
@@ -419,6 +439,7 @@ public class PlayerController : MonoBehaviour {
                     break;
                 // Swordsman will Aerial Slash
                 case (int)ClassNumber.Swordsman:
+                    FindObjectOfType<AudioManager>().play("Swing");
                     speed.y = .4f;
                     if (faceRight) {
                         body.velocity = new Vector2(moveSpeed * .5f, 0);
@@ -433,6 +454,7 @@ public class PlayerController : MonoBehaviour {
 
         }
         else if (Input.GetKeyDown(Aerial) && isGrounded && !isAttacking) {
+            FindObjectOfType<AudioManager>().play("Jump");
             if (_classNumber == (int)ClassNumber.Fighter)
                 speed = new Vector2(0, 5);
             else
@@ -476,6 +498,8 @@ public class PlayerController : MonoBehaviour {
 
     // Player collides with the ground
     public void setGrounded() {
+        if (!isGrounded)
+            FindObjectOfType<AudioManager>().play("Land");
         isGrounded = true;
         isJumping = false; 
         canAirDash = false;

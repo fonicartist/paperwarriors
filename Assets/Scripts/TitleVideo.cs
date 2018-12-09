@@ -14,25 +14,38 @@ public class TitleVideo : MonoBehaviour {
                                       KeyCode.Keypad1, KeyCode.Keypad2, KeyCode.Keypad3,
                                       KeyCode.Return, KeyCode.Space};
     private Vector3 cursorPos;
+    bool musicCheck;
 	
     // Use this for initialization
     void Start() {
         index = 0;
         cursorPos = cursor.transform.localPosition;
+        musicCheck = false;
     }
 
 	// Update is called once per frame
 	void Update () {
-      
+        if (!musicCheck)
+        {
+            //FindObjectOfType<AudioManager>().stop();
+            musicCheck = true;
+        }
+
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
             print("pressing up");
             if (index > 0)
+            {
                 index--;
+                FindObjectOfType<AudioManager>().play("CursorMove");
+            }
         }
         else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) {
             print("pressing down");
             if (index < 2)
+            {
                 index++;
+                FindObjectOfType<AudioManager>().play("CursorMove");
+            }
         }
 
         placeCursor();
@@ -51,6 +64,7 @@ public class TitleVideo : MonoBehaviour {
         foreach (KeyCode key in confirmKeys) {
             if (Input.GetKeyDown(key))
             {
+                FindObjectOfType<AudioManager>().play("CursorSelect");
                 switch (index)
                 {
                     case 0: SceneManager.LoadScene("CharacterSelect"); 
@@ -65,4 +79,6 @@ public class TitleVideo : MonoBehaviour {
         }
 
     }
+
+   
 }

@@ -32,7 +32,8 @@ public class ControlsScreen : MonoBehaviour
         if (Input.anyKeyDown && !paused)
         {
             paused = true;
-            StartCoroutine(wait());
+            StartCoroutine(wait()); 
+            FindObjectOfType<AudioManager>().play("TurnPage");
         }
 
     }

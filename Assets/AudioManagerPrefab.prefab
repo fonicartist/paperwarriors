@@ -1,0 +1,173 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1223438652101748}
+  m_IsPrefabAsset: 1
+--- !u!1 &1223438652101748
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4288967447710072}
+  - component: {fileID: 114751008654438712}
+  m_Layer: 0
+  m_Name: AudioManagerPrefab
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4288967447710072
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1223438652101748}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114751008654438712
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1223438652101748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3cbf4f6e4962ad4887f6c6d806d50b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: CursorMove
+    clip: {fileID: 8300000, guid: 8b071d2ec03683c45a442ceecf6a0386, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    isSong: 0
+    source: {fileID: 0}
+  - name: CursorSelect
+    clip: {fileID: 8300000, guid: 826ee2c14acc57b49b89aba176afb2fa, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    isSong: 0
+    source: {fileID: 0}
+  - name: CursorBack
+    clip: {fileID: 8300000, guid: 94ec892cbd22bf5468d3f9222115ba33, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    isSong: 0
+    source: {fileID: 0}
+  - name: PaperCombat
+    clip: {fileID: 8300000, guid: fc376d29a1a8d9b4995c9d1d406134d0, type: 3}
+    volume: 0.759
+    pitch: 0.9
+    loop: 1
+    isSong: 1
+    source: {fileID: 0}
+  - name: NihonMori
+    clip: {fileID: 8300000, guid: 1f1050eb906697d43a6f30f7b850eb09, type: 3}
+    volume: 0.759
+    pitch: 1
+    loop: 1
+    isSong: 1
+    source: {fileID: 0}
+  - name: RocktheDevil
+    clip: {fileID: 8300000, guid: 5e5c3ed328193934095162f4c8e0a68b, type: 3}
+    volume: 0.759
+    pitch: 1.05
+    loop: 1
+    isSong: 1
+    source: {fileID: 0}
+  - name: TurnPage
+    clip: {fileID: 8300000, guid: ac7a2659fd4e07643b98915bb88af5d4, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    isSong: 0
+    source: {fileID: 0}
+  - name: SwordHit
+    clip: {fileID: 8300000, guid: 0576732294ac555418346c16e2dea7b3, type: 3}
+    volume: 1
+    pitch: 1.1
+    loop: 0
+    isSong: 0
+    source: {fileID: 0}
+  - name: Hit
+    clip: {fileID: 8300000, guid: cb48d2dc324092d418125b1bc54d6146, type: 3}
+    volume: 1
+    pitch: 1.1
+    loop: 0
+    isSong: 0
+    source: {fileID: 0}
+  - name: Punch
+    clip: {fileID: 8300000, guid: fd54b1fe548d8f74ebc0dd7c4e11c16c, type: 3}
+    volume: 1
+    pitch: 1.1
+    loop: 0
+    isSong: 0
+    source: {fileID: 0}
+  - name: HeavyKick
+    clip: {fileID: 8300000, guid: 20535bfa65dfa1c4da969bce56079104, type: 3}
+    volume: 1
+    pitch: 1.1
+    loop: 0
+    isSong: 0
+    source: {fileID: 0}
+  - name: Swing
+    clip: {fileID: 8300000, guid: 9ad2554b2e3b74644ab7ec4849cd6a34, type: 3}
+    volume: 1
+    pitch: 1.1
+    loop: 0
+    isSong: 0
+    source: {fileID: 0}
+  - name: HeavySwing
+    clip: {fileID: 8300000, guid: 24714b63cd229434682f6c95ad877ba6, type: 3}
+    volume: 1
+    pitch: 1.1
+    loop: 0
+    isSong: 0
+    source: {fileID: 0}
+  - name: Jump
+    clip: {fileID: 8300000, guid: 4d6c734b8e466fe48af24400809b9819, type: 3}
+    volume: 1
+    pitch: 1.1
+    loop: 0
+    isSong: 0
+    source: {fileID: 0}
+  - name: Land
+    clip: {fileID: 8300000, guid: 6766c3bd587f6c941bea911efe6376f0, type: 3}
+    volume: 1
+    pitch: 1.1
+    loop: 0
+    isSong: 0
+    source: {fileID: 0}
+  - name: Dash
+    clip: {fileID: 8300000, guid: 72892e67f34ad4241bf489f0d5546264, type: 3}
+    volume: 1
+    pitch: 1.1
+    loop: 0
+    isSong: 0
+    source: {fileID: 0}
+  - name: Block
+    clip: {fileID: 8300000, guid: ea23c424a73f75d479376b9315598c77, type: 3}
+    volume: 1
+    pitch: 1.1
+    loop: 0
+    isSong: 0
+    source: {fileID: 0}
