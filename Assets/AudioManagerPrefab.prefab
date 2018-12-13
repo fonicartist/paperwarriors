@@ -110,49 +110,49 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Hit
     clip: {fileID: 8300000, guid: cb48d2dc324092d418125b1bc54d6146, type: 3}
-    volume: 1
+    volume: 0.84
     pitch: 1.1
     loop: 0
     isSong: 0
     source: {fileID: 0}
   - name: Punch
     clip: {fileID: 8300000, guid: fd54b1fe548d8f74ebc0dd7c4e11c16c, type: 3}
-    volume: 1
+    volume: 0.81
     pitch: 1.1
     loop: 0
     isSong: 0
     source: {fileID: 0}
   - name: HeavyKick
     clip: {fileID: 8300000, guid: 20535bfa65dfa1c4da969bce56079104, type: 3}
-    volume: 1
-    pitch: 1.1
+    volume: 0.6
+    pitch: 1.15
     loop: 0
     isSong: 0
     source: {fileID: 0}
   - name: Swing
     clip: {fileID: 8300000, guid: 9ad2554b2e3b74644ab7ec4849cd6a34, type: 3}
-    volume: 1
+    volume: 0.89
     pitch: 1.1
     loop: 0
     isSong: 0
     source: {fileID: 0}
   - name: HeavySwing
     clip: {fileID: 8300000, guid: 24714b63cd229434682f6c95ad877ba6, type: 3}
-    volume: 1
-    pitch: 1.1
+    volume: 0.75
+    pitch: 1.15
     loop: 0
     isSong: 0
     source: {fileID: 0}
   - name: Jump
     clip: {fileID: 8300000, guid: 4d6c734b8e466fe48af24400809b9819, type: 3}
-    volume: 1
-    pitch: 1.1
+    volume: 0.8
+    pitch: 1.2
     loop: 0
     isSong: 0
     source: {fileID: 0}
   - name: Land
     clip: {fileID: 8300000, guid: 6766c3bd587f6c941bea911efe6376f0, type: 3}
-    volume: 1
+    volume: 0.8
     pitch: 1.1
     loop: 0
     isSong: 0
@@ -166,7 +166,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Block
     clip: {fileID: 8300000, guid: ea23c424a73f75d479376b9315598c77, type: 3}
-    volume: 1
+    volume: 0.9
     pitch: 1.1
     loop: 0
     isSong: 0

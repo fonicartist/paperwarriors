@@ -7,6 +7,27 @@ public class HitCollider : MonoBehaviour {
     public PlayerController owner;
 
     void OnTriggerEnter2D(Collider2D other) {
+        // Make projectile destroy itself it hits another projectile that's the same type
+        if (other.tag == "Effect")
+        {
+            PlayerController opponent = other.gameObject.GetComponentInParent<PlayerController>();
+            Rigidbody2D body = owner.GetComponentInParent<Rigidbody2D>();
+            Rigidbody2D otherBody = other.GetComponentInParent<Rigidbody2D>();
+            AnimatorStateInfo anim = other.GetComponentInParent<Animator>().GetCurrentAnimatorStateInfo(0);
+            
+            if (opponent.getAttack())
+            {
+                int ownerType = owner.getAttackType();
+                int otherType = opponent.getAttackType();
+
+                if (ownerType == otherType && owner.classType == 2 && opponent.classType == 2)
+                {
+                    GetComponent<Animator>().SetTrigger("Blocked");
+                    FindObjectOfType<AudioManager>().play("FireHit");
+                    return;
+                }
+            }
+        }
         if (other.tag == "PlayerBody") {
             PlayerController opponent = other.gameObject.GetComponentInParent<PlayerController>();
             Rigidbody2D body = owner.GetComponentInParent<Rigidbody2D>();
@@ -31,9 +52,14 @@ public class HitCollider : MonoBehaviour {
                     // Same attack sends players backwards
                     if (ownerType == otherType)
                     {
-                        owner.flyback();
-                        opponent.flyback();
-                        FindObjectOfType<AudioManager>().play("Block");
+                        if (owner.classType != 2)
+                            owner.flyback();
+                        GetComponent<Animator>().SetTrigger("Blocked");
+                        FindObjectOfType<AudioManager>().play("FireHit");
+                        if (opponent.classType != 2)
+                            opponent.flyback();
+                        if (opponent.classType != 2 && owner.classType != 2)
+                            FindObjectOfType<AudioManager>().play("Block");
                         return;
                     }
 
@@ -87,17 +113,38 @@ public class HitCollider : MonoBehaviour {
                             case 1: FindObjectOfType<AudioManager>().play("SwordHit");
                                 break;
                             case 2:
+                                switch(owner.getAttackType())
+                                {
+                                    case 0: FindObjectOfType<AudioManager>().play("FireHit"); 
+                                        break;
+                                    case 1: break;
+                                    case 2: break;
+                                }
                                 break;
                         }
                         if (owner.faceRight)
                         {
-                            body.velocity = new Vector2(-55, 10);
-                            otherBody.velocity = new Vector2(35, 5);
+                            // Player doesn't move if casting spell
+                            if (owner.classType != 2)
+                                body.velocity = new Vector2(-55, 10);
+
+                            // Check if doing uppercut
+                            if (owner.getAttackType() == 1)
+                                otherBody.velocity = new Vector2(25, 20);
+                            else
+                                otherBody.velocity = new Vector2(35, 5);
                         }
                         else
                         {
-                            body.velocity = new Vector2(55, 10);
-                            otherBody.velocity = new Vector2(-35, 5);
+                            // Player doesn't move if casting spell
+                            if (owner.classType != 2)
+                                body.velocity = new Vector2(55, 10);
+
+                            // Check if doing uppercut
+                            if (owner.getAttackType() == 1)
+                                otherBody.velocity = new Vector2(-25, 20);
+                            else
+                                otherBody.velocity = new Vector2(-35, 5);
                         }
                     }
                 }

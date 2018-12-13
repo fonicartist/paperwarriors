@@ -17,6 +17,7 @@ public class CameraMovement : MonoBehaviour {
                     p1Pos,
                     p2Pos;
     private GameObject[] players;
+    private Queue<Vector3> posQ;
 
 	// Use this for initialization
 	void Start () {
@@ -39,6 +40,7 @@ public class CameraMovement : MonoBehaviour {
         }
         xMax = xVal;
         xMin = -xVal;
+        posQ = new Queue<Vector3>();
 	}
 	
 	// Update is called once per frame
@@ -65,7 +67,9 @@ public class CameraMovement : MonoBehaviour {
         float y = Mathf.Clamp(center.y, yMin, yMax);
 
         // Set the new camera position if it passes a certain threshold
+        posQ.Enqueue(new Vector3(x, y, transform.position.z));
 
-        transform.position = new Vector3(x, y, transform.position.z);
+        if (posQ.Count > 6)
+            transform.position = posQ.Dequeue();
     }
 }

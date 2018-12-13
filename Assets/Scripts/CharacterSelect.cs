@@ -42,7 +42,7 @@ public class CharacterSelect : MonoBehaviour
                 moveCursor(p1Cursor, -5 + 4 * p1Choice, p1Pos);
                 FindObjectOfType<AudioManager>().play("CursorMove");
             }
-            else if (Input.GetKeyDown(Right1) && !selected1 && p1Choice != (int)Character.Fighter)
+            else if (Input.GetKeyDown(Right1) && !selected1 && p1Choice != (int)Character.Mage)
             {
                 p1Choice++;
                 moveCursor(p1Cursor, -5 + 4 * p1Choice, p1Pos);
@@ -66,7 +66,7 @@ public class CharacterSelect : MonoBehaviour
                 moveCursor(p2Cursor, -3 + 4 * p2Choice, p2Pos);
                 FindObjectOfType<AudioManager>().play("CursorMove");
             }
-            else if (Input.GetKeyDown(Right2) && !selected2 && p2Choice != (int) Character.Fighter)
+            else if (Input.GetKeyDown(Right2) && !selected2 && p2Choice != (int) Character.Mage)
             {
                 p2Choice++;
                 moveCursor(p2Cursor, -3 + 4 * p2Choice, p2Pos);
@@ -84,7 +84,8 @@ public class CharacterSelect : MonoBehaviour
                 selected2 = false;
                 FindObjectOfType<AudioManager>().play("CursorBack");
             }
-            else if (Input.GetKeyDown(KeyCode.Escape))
+            else if (Input.GetKeyDown(KeyCode.Escape) || (Input.GetKeyDown(Back1) && !selected1) 
+                     || (Input.GetKeyDown(Back2) && !selected2))
             { 
                 SceneManager.LoadScene("TitleVideo");
                 FindObjectOfType<AudioManager>().play("CursorBack");

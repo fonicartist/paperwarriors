@@ -9,6 +9,7 @@ TagManager:
   - PlayerBody
   - HitBox
   - Stage
+  - Effect
   layers:
   - Default
   - TransparentFX

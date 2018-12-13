@@ -349,7 +349,10 @@ public class PlayerController : MonoBehaviour {
 
     // Returns the player's health as a percent
     public float getHealthPercent() {
-        return health / MAX_HEALTH;
+        if (health / MAX_HEALTH < .01) 
+            return 0;
+        else
+            return health / MAX_HEALTH;
     }
 
     // Put's player in a death state to prevent multiple coroutines from being called
@@ -369,16 +372,29 @@ public class PlayerController : MonoBehaviour {
                     break;
                 case 1: FindObjectOfType<AudioManager>().play("Swing");
                     break;
+                case 2: FindObjectOfType<AudioManager>().play("Punch");
+                    break;
             }
             
             anim.SetTrigger("Punch");
             isAttacking = true;
             attackType = 0;
             speed.x = 0;
-            if (faceRight)
-                body.velocity = new Vector2(moveSpeed * 4f, body.velocity.y);
+            if (_classNumber != 2)
+            {
+                if (faceRight)
+                    body.velocity = new Vector2(moveSpeed * 4f, body.velocity.y);
+                else
+                    body.velocity = new Vector2(-moveSpeed * 4f, body.velocity.y);
+            }
             else
-                body.velocity = new Vector2(-moveSpeed * 4f, body.velocity.y);
+            {
+                GetComponentInChildren<EffectSpawner>().castFirebolt();
+                if (faceRight)
+                    body.velocity = new Vector2(moveSpeed * 2f, body.velocity.y);
+                else
+                    body.velocity = new Vector2(-moveSpeed * 2f, body.velocity.y);
+            }
         }
         // Perform anti-air attack
         else if (Input.GetKeyDown(UpperCut) && !Input.GetKey(Punch) && isGrounded && !attackFromGround) {
@@ -426,7 +442,7 @@ public class PlayerController : MonoBehaviour {
             switch (_classNumber) { 
                 // Martial Artist will Dive Kick
                 case (int)ClassNumber.Fighter:
-                    speed.y = -1;
+                    speed.y = -.5f;
                     FindObjectOfType<AudioManager>().play("HeavyKick");
                     if (faceRight) { 
                         body.velocity = new Vector2(moveSpeed * 6.5f, 0); 
@@ -485,6 +501,12 @@ public class PlayerController : MonoBehaviour {
             health -= damage;
         else
             health = 0;
+
+        if (health < 2)
+            health = 0;
+
+        // Cancel projectile animation
+        GetComponentInChildren<EffectSpawner>().cancel();
 
         speed = new Vector2(0, 0);
         body.velocity = new Vector2(0, 0);
@@ -548,7 +570,7 @@ public class PlayerController : MonoBehaviour {
 
     public int getPower()
     {
-        return 10 - 2 * _classNumber;
+        return 10 - _classNumber;
     }
 
     // Knocks the player away from opponent
