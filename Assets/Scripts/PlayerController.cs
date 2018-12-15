@@ -506,7 +506,8 @@ public class PlayerController : MonoBehaviour {
             health = 0;
 
         // Cancel projectile animation
-        GetComponentInChildren<EffectSpawner>().cancel();
+        //if (classType == 2)
+            //GetComponentInChildren<EffectSpawner>().cancel();
 
         speed = new Vector2(0, 0);
         body.velocity = new Vector2(0, 0);

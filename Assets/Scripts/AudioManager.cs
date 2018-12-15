@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 
+        // Check if an instance already exists, deletes itself otherwise
         if (instance == null)
             instance = this;
         else
@@ -19,8 +20,10 @@ public class AudioManager : MonoBehaviour {
             return;
         }
 
+        // Game object persists through level loading
         DontDestroyOnLoad(gameObject);
 
+        // Assign properties for each sound
         foreach (Sound s in sounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
@@ -33,6 +36,7 @@ public class AudioManager : MonoBehaviour {
 
     public void play(string name)
     {
+        // Search for sound with the given name and play it
         Sound s = Array.Find(sounds, sound => sound.name == name);
         if (s == null)
         {
@@ -40,13 +44,14 @@ public class AudioManager : MonoBehaviour {
             return;
         }
 
-        // Prevent allow the song from playing again if it already is.
+        // Prevent the song from playing again if it already is.
         if (s.source.isPlaying && s.isSong)
             return;
 
         s.source.Play();
     }
 
+    // Stops game music when not in Fighting scene
     public void stop()
     {
         Sound s = Array.Find(sounds, sound => sound.name == "PaperCombat");

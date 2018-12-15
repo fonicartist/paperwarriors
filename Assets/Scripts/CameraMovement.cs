@@ -11,7 +11,9 @@ public class CameraMovement : MonoBehaviour {
     private float xVal,
                   yMax,
                   xMin,
-                  xMax;
+                  xMax,
+                  previousY,
+                  deltaY;
                  
     private Vector2 center,
                     p1Pos,
@@ -23,6 +25,7 @@ public class CameraMovement : MonoBehaviour {
 	void Start () {
         players = GameObject.FindGameObjectsWithTag("Player");
 
+        // Mobility of the camera is dependent on the stage chosen
         switch (PlayerPrefs.GetInt("StageChoice", 1))
         {
             case 0: 
@@ -53,9 +56,17 @@ public class CameraMovement : MonoBehaviour {
         p1Pos = players[0].transform.localPosition;
         p2Pos = players[1].transform.localPosition;
 
-        // Find the center between the players
+        // Find the center between the players at this frame
         center.x = (p1Pos.x + p2Pos.x) / 2;
+        previousY = center.y;
         center.y = 2.5f + (p1Pos.y + p2Pos.y) / 2;
+
+        // Check if the Y is changing a significant amount or not
+        deltaY = center.y - previousY;
+        if (deltaY < 0)
+            deltaY *= -1;
+        if (deltaY < .2)
+            center.y = previousY;
 
 	}
 

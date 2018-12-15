@@ -28,6 +28,8 @@ public class HitCollider : MonoBehaviour {
                 }
             }
         }
+
+        // Check for conditions on the other player to determine if damage will be done
         if (other.tag == "PlayerBody") {
             PlayerController opponent = other.gameObject.GetComponentInParent<PlayerController>();
             Rigidbody2D body = owner.GetComponentInParent<Rigidbody2D>();
@@ -52,12 +54,19 @@ public class HitCollider : MonoBehaviour {
                     // Same attack sends players backwards
                     if (ownerType == otherType)
                     {
+                        // Owner of collider is not a mage
                         if (owner.classType != 2)
                             owner.flyback();
-                        GetComponent<Animator>().SetTrigger("Blocked");
-                        FindObjectOfType<AudioManager>().play("FireHit");
+                        // Owner of the collider is a mage
+                        if (owner.classType == 2)
+                        {
+                            GetComponent<Animator>().SetTrigger("Blocked");
+                            FindObjectOfType<AudioManager>().play("FireHit");
+                        }
+                        // Opponent is not a mage
                         if (opponent.classType != 2)
                             opponent.flyback();
+                        // Neither players are a mage
                         if (opponent.classType != 2 && owner.classType != 2)
                             FindObjectOfType<AudioManager>().play("Block");
                         return;
@@ -115,7 +124,8 @@ public class HitCollider : MonoBehaviour {
                             case 2:
                                 switch(owner.getAttackType())
                                 {
-                                    case 0: FindObjectOfType<AudioManager>().play("FireHit"); 
+                                    case 0: FindObjectOfType<AudioManager>().play("FireHit");
+                                        GetComponent<Animator>().SetTrigger("Blocked");
                                         break;
                                     case 1: break;
                                     case 2: break;

@@ -42,6 +42,7 @@ public class FightSceneController : MonoBehaviour {
         p1Char = PlayerPrefs.GetInt("P1Choice", 1);
         p2Char = PlayerPrefs.GetInt("P2Choice", 0);
 
+        // Determine which Player 1 character to activate for control based on select screen
         switch (p1Char)
         {
             case 0:
@@ -63,6 +64,8 @@ public class FightSceneController : MonoBehaviour {
                 p1Bar.GetComponent<Lifebar>().setPlayer(p1Mage);
                 break;
         }
+
+        // Determine which Player 2 character to activate for control based on select screen
         switch (p2Char)
         {
             case 0:
@@ -113,7 +116,7 @@ public class FightSceneController : MonoBehaviour {
             stage.SetActive(false);
         stages[PlayerPrefs.GetInt("StageChoice", 1)].SetActive(true);
 
-        // Determine if player 2 is in the first slot
+        // Switch players in array if Player 2 is in the first slot
         if (players[0].GetComponent<PlayerController>().playername.Equals("Player 2")) {
             GameObject temp = players[0];
             players[0] = players[1];
@@ -127,6 +130,7 @@ public class FightSceneController : MonoBehaviour {
         print(p1WinCount + " " + p2WinCount);
         displayWins();
 
+        // Pauses ingame time and displays round cards
         StartCoroutine(matchStart());
         Time.timeScale = 0f;
 	}
@@ -168,12 +172,14 @@ public class FightSceneController : MonoBehaviour {
                         break;
                 }
         }
+        // This lets the Fight Scene Controller know that music is already being played
         PlayerPrefs.SetInt("MusicChoice", -1);
     }
 	
 	// Update is called once per frame
 	void Update () {
 
+        // Check player healths to see if someone is dead
         for (int i = 0; i < players.Length; i++)
             if (players[i].GetComponentInChildren<PlayerController>().getHealthPercent() == 0 && !calledCoroutineAlready)
             {
@@ -181,6 +187,7 @@ public class FightSceneController : MonoBehaviour {
                 StartCoroutine(playerWins(i)); 
             }
 
+        // Stops the match in the event of a timeout
         if (timer.getTime() == 0 && !calledCoroutineAlready)
         {
             calledCoroutineAlready = true;
@@ -242,6 +249,7 @@ public class FightSceneController : MonoBehaviour {
 
     }
 
+    // This function displays the rounds a player has one as paperclips near the health bar
     void displayWins()
     {
         // Show Player 1 Wins
