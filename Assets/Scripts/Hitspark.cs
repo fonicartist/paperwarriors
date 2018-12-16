@@ -2,29 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Stalagmite : MonoBehaviour {
-
-    public Rigidbody2D body;
+public class Hitspark : MonoBehaviour
+{
     private Animator anim;
+    private int sparkNo;
 
     // Initialization before Start()
     void Awake()
     {
         // Gain access to animator and start firebolt animation
         anim = GetComponentInChildren<Animator>();
-        anim.SetTrigger("Rise");
     }
 
     // Used for initialization
     void Start()
     {
-        FindObjectOfType<AudioManager>().play("Quake");
+        switch (sparkNo)
+        {
+            case 1: anim.SetTrigger("Hit1");
+                break;
+            case 2: anim.SetTrigger("Hit2");
+                break;
+            case 3: anim.SetTrigger("Hit3");
+                break;
+            case 4: anim.SetTrigger("Hit4");
+                break;
+            case 5: anim.SetTrigger("Hit5");
+                break;
+        }
     }
 
     void Update()
     {
         if (done())
+        {
+            print("Deleting hitspark");
             Destroy(gameObject);
+        }
     }
 
     // Check if projectile is done with all animations
@@ -33,8 +47,8 @@ public class Stalagmite : MonoBehaviour {
         return anim.GetCurrentAnimatorStateInfo(0).IsName("Default");
     }
 
-    public int getType()
+    public void setNo(int number)
     {
-        return 2;
+        sparkNo = number;
     }
 }

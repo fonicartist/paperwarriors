@@ -65,7 +65,7 @@ public class CameraMovement : MonoBehaviour {
         deltaY = center.y - previousY;
         if (deltaY < 0)
             deltaY *= -1;
-        if (deltaY < .2)
+        if (deltaY < .1)
             center.y = previousY;
 
 	}

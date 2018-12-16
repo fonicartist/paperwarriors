@@ -10,9 +10,9 @@ public class HitCollider : MonoBehaviour {
         // Make projectile destroy itself it hits another projectile that's the same type
         if (other.tag == "Effect")
         {
-            PlayerController opponent = other.gameObject.GetComponentInParent<PlayerController>();
+            PlayerController opponent = other.GetComponentInParent<HitCollider>().owner;
             Rigidbody2D body = owner.GetComponentInParent<Rigidbody2D>();
-            Rigidbody2D otherBody = other.GetComponentInParent<Rigidbody2D>();
+            Rigidbody2D otherBody = opponent.GetComponent<Rigidbody2D>();
             AnimatorStateInfo anim = other.GetComponentInParent<Animator>().GetCurrentAnimatorStateInfo(0);
             
             if (opponent.getAttack())
@@ -22,8 +22,17 @@ public class HitCollider : MonoBehaviour {
 
                 if (ownerType == otherType && owner.classType == 2 && opponent.classType == 2)
                 {
-                    GetComponent<Animator>().SetTrigger("Blocked");
-                    FindObjectOfType<AudioManager>().play("FireHit");
+                    GetComponent<Animator>().SetTrigger("Clashed");
+
+                    // Play the correct sound based on which spell was blocked
+                    switch (owner.getAttackType()) { 
+                        case 0: FindObjectOfType<AudioManager>().play("FireHit");
+                            break;
+                        case 1:
+                            break;
+                        case 2: FindObjectOfType<AudioManager>().play("RockHit");
+                            break;
+                    }
                     return;
                 }
             }
@@ -113,7 +122,6 @@ public class HitCollider : MonoBehaviour {
                     }
                     else
                     {
-                        opponent.getHurt(owner.getPower());
                         // Play the correct sound for getting hurt depending on the character
                         switch (owner.classType)
                         {
@@ -126,12 +134,20 @@ public class HitCollider : MonoBehaviour {
                                 {
                                     case 0: FindObjectOfType<AudioManager>().play("FireHit");
                                         GetComponent<Animator>().SetTrigger("Blocked");
+                                        print("Flamed on");
                                         break;
-                                    case 1: break;
-                                    case 2: break;
+                                    case 1: 
+                                        break;
+                                    case 2: FindObjectOfType<AudioManager>().play("RockHit");
+                                        print("Pounded by rock"); 
+                                        break;
                                 }
                                 break;
                         }
+
+                        // Subtract health
+                        opponent.getHurt(owner.getPower());
+
                         if (owner.faceRight)
                         {
                             // Player doesn't move if casting spell
@@ -139,7 +155,7 @@ public class HitCollider : MonoBehaviour {
                                 body.velocity = new Vector2(-55, 10);
 
                             // Check if doing uppercut
-                            if (owner.getAttackType() == 1)
+                            if (owner.getAttackType() == 2)
                                 otherBody.velocity = new Vector2(25, 20);
                             else
                                 otherBody.velocity = new Vector2(35, 5);
@@ -151,7 +167,7 @@ public class HitCollider : MonoBehaviour {
                                 body.velocity = new Vector2(55, 10);
 
                             // Check if doing uppercut
-                            if (owner.getAttackType() == 1)
+                            if (owner.getAttackType() == 2)
                                 otherBody.velocity = new Vector2(-25, 20);
                             else
                                 otherBody.velocity = new Vector2(-35, 5);

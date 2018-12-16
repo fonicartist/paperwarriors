@@ -51,4 +51,9 @@ public class Firebolt : MonoBehaviour {
         return anim.GetCurrentAnimatorStateInfo(0).IsName("Default");
     }
 
+    public int getType()
+    {
+        return 0;
+    }
+
 }

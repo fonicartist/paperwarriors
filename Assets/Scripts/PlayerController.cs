@@ -405,6 +405,8 @@ public class PlayerController : MonoBehaviour {
                     break;
                 case 1: FindObjectOfType<AudioManager>().play("HeavySwing");
                     break;
+                case 2: FindObjectOfType<AudioManager>().play("HeavyKick");
+                    break;
             }
             anim.SetTrigger("Uppercut");
             isAttacking = true;
@@ -425,6 +427,14 @@ public class PlayerController : MonoBehaviour {
                     else
                         body.velocity = new Vector2(-moveSpeed * 2.5f, 0);
                     break;
+                case 2:
+                    GetComponentInChildren<EffectSpawner>().castStalagmite();
+                    if (faceRight)
+                        body.velocity = new Vector2(moveSpeed * 2f, body.velocity.y);
+                    else
+                        body.velocity = new Vector2(-moveSpeed * 2f, body.velocity.y);
+                    break;
+
             }
         }
     }
@@ -509,6 +519,10 @@ public class PlayerController : MonoBehaviour {
         //if (classType == 2)
             //GetComponentInChildren<EffectSpawner>().cancel();
 
+        // Spawn a hitspark
+        PlayerController other = otherPlayer.GetComponent<PlayerController>();
+        hitspark(other.getAttackType(), other.classType);
+
         speed = new Vector2(0, 0);
         body.velocity = new Vector2(0, 0);
 
@@ -517,6 +531,56 @@ public class PlayerController : MonoBehaviour {
         if (pos.y > -.5f)
             hitInAir();
         _animNumber = (int)AnimNumber.Idle;
+    }
+
+    // Spawn appropriate hitspark based on the other player's attack
+    void hitspark(int otherAttack, int otherClass)
+    {
+        print(otherAttack + " " + otherClass);
+
+        
+        switch (otherClass)
+        {
+            // Other player is a Fighter
+            case 0:
+                switch (otherAttack)
+                {
+                    // Forward Attack
+                    case 0: GetComponentInChildren<EffectSpawner>().hitspark(4);
+                        break;
+                    // Aerial
+                    case 1: GetComponentInChildren<EffectSpawner>().hitspark(1);
+                        break;
+                    // Anti-Air
+                    case 2: GetComponentInChildren<EffectSpawner>().hitspark(2);
+                        break;
+                }
+                break;
+            // Other player is a Swordsman
+            case 1:
+                switch (otherAttack)
+                {
+                    // Forward Attack
+                    case 0: GetComponentInChildren<EffectSpawner>().hitspark(3);
+                        break;
+                    // Aerial
+                    case 1: GetComponentInChildren<EffectSpawner>().hitspark(5);
+                        break;
+                    // Anti-Air
+                    case 2: GetComponentInChildren<EffectSpawner>().hitspark(5);
+                        break;
+                }
+                break;
+            // Other player is a Mage
+            case 2:
+                if (otherAttack == 2)
+                    GetComponentInChildren<EffectSpawner>().hitspark(5); // Lightning Spell
+                else if (otherAttack == 1)
+                    GetComponentInChildren<EffectSpawner>().hitspark(5); // Rock Spell
+                break;
+        }
+        
+
     }
 
     // Player collides with the ground
