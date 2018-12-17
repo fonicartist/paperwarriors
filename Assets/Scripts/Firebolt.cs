@@ -21,9 +21,9 @@ public class Firebolt : MonoBehaviour {
     {
         // Determine the direction of the firebolt
         switch (direction) { 
-            case 0: body.velocity = transform.right * 20;
+            case 0: body.velocity = transform.right * 22;
                 break;
-            case 1: body.velocity = transform.right * -20;
+            case 1: body.velocity = transform.right * -22;
                 break;
         }
     

@@ -17,6 +17,7 @@ public class FightSceneController : MonoBehaviour {
     public GameObject p1Fighter, p1Swordsman, p1Mage, p2Fighter, p2Swordsman, p2Mage;
     public GameObject clip1, clip2, clip3, clip4;
     public GameObject p1Bar, p2Bar;
+    public GameObject pmenu;
 
     // Game Objects
     private Timer timer;
@@ -192,6 +193,12 @@ public class FightSceneController : MonoBehaviour {
         {
             calledCoroutineAlready = true;
             StartCoroutine(playerWinsByTimeout());
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            pmenu.SetActive(true);
+            Time.timeScale = 0f;
         }
 
 	}

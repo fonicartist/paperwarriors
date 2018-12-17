@@ -136,7 +136,8 @@ public class HitCollider : MonoBehaviour {
                                         GetComponent<Animator>().SetTrigger("Blocked");
                                         print("Flamed on");
                                         break;
-                                    case 1: 
+                                    case 1: FindObjectOfType<AudioManager>().play("Shocked");
+                                        print("Electrocuted");
                                         break;
                                     case 2: FindObjectOfType<AudioManager>().play("RockHit");
                                         print("Pounded by rock"); 

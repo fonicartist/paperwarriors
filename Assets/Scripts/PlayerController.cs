@@ -35,7 +35,8 @@ public class PlayerController : MonoBehaviour {
     private int _animNumber,
                 _classNumber,
                 invincibleFrames,
-                attackType;
+                attackType,
+                floatingCounter;
     private Vector3 pos,
                     otherPos;
     private Vector2 speed,
@@ -64,6 +65,7 @@ public class PlayerController : MonoBehaviour {
         attackType = -1;
         previousDelta = Time.realtimeSinceStartup;
         setGrounded();
+        floatingCounter = 0;
     }
 
     // Update is called once per frame
@@ -142,6 +144,11 @@ public class PlayerController : MonoBehaviour {
                 {
                     // Check for attack input
                     attack();
+                }
+                // Check again for airAttack
+                if (!isAttacking && !landing())
+                {
+                    // Check for attack input
                     airAttack();
                 }
 
@@ -217,6 +224,7 @@ public class PlayerController : MonoBehaviour {
             else if (Input.GetKey(Right)) { 
                 speed.x = .85f;
             }
+            GetComponentInChildren<EffectSpawner>().jumpDust();
         }
 
     }
@@ -230,7 +238,18 @@ public class PlayerController : MonoBehaviour {
 
         // Apply gravity
         if (pos.y > -1.6f)
-            speed.y -= GRAVITY * deltaTime;
+        {
+            if (getAttack() && classType == 2 && floatingCounter > 0)
+            {
+                speed.y -= GRAVITY * deltaTime * .2f;
+                print("Applying less gravity");
+                floatingCounter--;
+            }
+            else
+            {
+                speed.y -= GRAVITY * deltaTime;
+            }
+        }
 
         // Prevent jumping over/on the other player if too close while in the air
         if (pos.y < 2.3 && speed.y < 0 && !airDashing) {
@@ -317,6 +336,7 @@ public class PlayerController : MonoBehaviour {
     // Adds velocity to player for dashing forwards
     void forwardDash () {
         FindObjectOfType<AudioManager>().play("Dash");
+        GetComponentInChildren<EffectSpawner>().dash(0);
         canAirDash = false;
         airDashing = true;
         _animNumber = (int)AnimNumber.ForwardDash;
@@ -330,6 +350,7 @@ public class PlayerController : MonoBehaviour {
     // Adds velocity to player for dashing backwards
     void backDash () {
         FindObjectOfType<AudioManager>().play("Dash");
+        GetComponentInChildren<EffectSpawner>().dash(1);
         canAirDash = false;
         airDashing = true;
         _animNumber = (int)AnimNumber.BackDash;
@@ -365,7 +386,7 @@ public class PlayerController : MonoBehaviour {
     void attack()
     {
         // Perform lunging attack
-        if (Input.GetKeyDown(Punch) && !Input.GetKey(UpperCut) && isGrounded && !attackFromGround) {
+        if (Input.GetKeyDown(Punch) && !Input.GetKey(UpperCut) && isGrounded && !attackFromGround && !isAttacking) {
             switch (_classNumber)
             {
                 case 0: FindObjectOfType<AudioManager>().play("Punch");
@@ -397,7 +418,7 @@ public class PlayerController : MonoBehaviour {
             }
         }
         // Perform anti-air attack
-        else if (Input.GetKeyDown(UpperCut) && !Input.GetKey(Punch) && isGrounded && !attackFromGround) {
+        else if (Input.GetKeyDown(UpperCut) && !Input.GetKey(Punch) && isGrounded && !attackFromGround && !isAttacking) {
             switch(_classNumber)
             {
                 case 0: FindObjectOfType<AudioManager>().play("HeavyKick");
@@ -476,11 +497,24 @@ public class PlayerController : MonoBehaviour {
                         speed.x = -.5f;
                     }
                     break;
+                // Mage summons lightning
+                case (int)ClassNumber.Mage:
+                    floatingCounter = 7;
+                    FindObjectOfType<AudioManager>().play("Punch");
+                    GetComponentInChildren<EffectSpawner>().castLightning();
+                    speed.y = .4f;
+                    body.velocity = new Vector2(0, 1);
+                    if (faceRight)
+                        speed.x = .8f;
+                    else
+                        speed.x = -.8f;
+                    break;
             }
 
         }
         else if (Input.GetKeyDown(Aerial) && isGrounded && !isAttacking) {
             FindObjectOfType<AudioManager>().play("Jump");
+            GetComponentInChildren<EffectSpawner>().jumpDust();
             if (_classNumber == (int)ClassNumber.Fighter)
                 speed = new Vector2(0, 5);
             else
@@ -573,9 +607,9 @@ public class PlayerController : MonoBehaviour {
                 break;
             // Other player is a Mage
             case 2:
-                if (otherAttack == 2)
-                    GetComponentInChildren<EffectSpawner>().hitspark(5); // Lightning Spell
-                else if (otherAttack == 1)
+                if (otherAttack == 1)
+                    GetComponentInChildren<EffectSpawner>().hitspark(3); // Lightning Spell
+                else if (otherAttack == 2)
                     GetComponentInChildren<EffectSpawner>().hitspark(5); // Rock Spell
                 break;
         }
@@ -586,7 +620,10 @@ public class PlayerController : MonoBehaviour {
     // Player collides with the ground
     public void setGrounded() {
         if (!isGrounded)
+        {
             FindObjectOfType<AudioManager>().play("Land");
+            GetComponentInChildren<EffectSpawner>().landDust();
+        }
         isGrounded = true;
         isJumping = false; 
         canAirDash = false;
@@ -658,6 +695,7 @@ public class PlayerController : MonoBehaviour {
 
     // Chip damage to take away if player is blocking
     public void block () {
+        GetComponentInChildren<EffectSpawner>().block();
         if (health > 0)
             health -= 2;
     }
